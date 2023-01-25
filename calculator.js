@@ -7,6 +7,18 @@ const { response } = require("express");
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.get("/bmicalculator", function(request, response) {
+  response.sendFile(__dirname + "/bmiCalculator.html");
+});
+
+app.post("/bmiCalculator", function(request, response) {
+  var weight = parseFloat(request.body.weight);
+  var height = parseFloat(request.body.height)
+
+  var bmi = weight / (height * height);
+  response.send("Your BMI is " + bmi);
+});
+
 app.get("/", function(request, response) {
   response.sendFile(__dirname + "/index.html");
 });
@@ -18,18 +30,6 @@ app.post("/", function(request, response) {
 
   var result = num1 + num2;
     response.send("The result of the calculation is " + result);
-});
-
-app.get("/bmicalculator", function(request, response) {
-  response.sendFile(__dirname + "/bmiCalculator.html");
-});
-
-app.post("/bmiCalculator", function(request, response) {
-  var weight = parseFloat(request.body.weight);
-  var height = parseFloat(request.body.height)
-
-  var bmi = weight / (height * height);
-  response.send("Your BMI is " + bmi);
 });
 
 app.listen(3000, function() {
